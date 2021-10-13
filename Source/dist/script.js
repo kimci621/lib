@@ -101,6 +101,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _modules_listeners__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./modules/listeners */ "./src/js/lib/modules/listeners.js");
 /* harmony import */ var _modules_actions__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./modules/actions */ "./src/js/lib/modules/actions.js");
 /* harmony import */ var _modules_effects__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./modules/effects */ "./src/js/lib/modules/effects.js");
+/* harmony import */ var _modules_dropdown__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./modules/dropdown */ "./src/js/lib/modules/dropdown.js");
+/* harmony import */ var _modules_components__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./modules/components */ "./src/js/lib/modules/components.js");
+
+
 
 
 
@@ -131,8 +135,10 @@ $("elem"). - Выбрать элемент по селектору или тэг
 .eq(selector) - первый элемент по порядку у всех подобных 
 .index() - номер элемента  по порядку у всех подобных 
 .find(selector) - все подобные по порядку у одного общего родителя
-.closest(selector) - ближайший выше по иерархии элемент у всех в селекторе, если его нет, то он сам
+.closestElem(selector) - ближайший выше по иерархии элемент у всех в селекторе, если его нет, то он сам
 .siblings() - все соседи элемента
+.fadeIn(duration=int, display, callback) - анимиция появления с requestAnimationFrame  через opacity
+.fadeOut(duration=int, display, callback) - анимиция изчезания с requestAnimationFrame через opacity
 */
 
 /* harmony default export */ __webpack_exports__["default"] = (_modules_core__WEBPACK_IMPORTED_MODULE_0__["default"]);
@@ -334,6 +340,96 @@ _core__WEBPACK_IMPORTED_MODULE_0__["default"].prototype.toggleClass = function (
 
 /***/ }),
 
+/***/ "./src/js/lib/modules/components.js":
+/*!******************************************!*\
+  !*** ./src/js/lib/modules/components.js ***!
+  \******************************************/
+/*! no exports provided */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./core */ "./src/js/lib/modules/core.js");
+
+
+_core__WEBPACK_IMPORTED_MODULE_0__["default"].prototype.modal = function () {
+  for (let i = 0; i < this.length; i++) {
+    const target = this[i].getAttribute("data-target-id");
+    Object(_core__WEBPACK_IMPORTED_MODULE_0__["default"])(this[i]).listenerAdd('click', e => {
+      e.preventDefault();
+      Object(_core__WEBPACK_IMPORTED_MODULE_0__["default"])(`#${target}`).fadeIn(500);
+      document.body.style.overflow = "hidden";
+    });
+  }
+
+  const closeTriggers = document.querySelectorAll('[data-close]');
+  closeTriggers.forEach(elem => {
+    elem.addEventListener('click', () => {
+      Object(_core__WEBPACK_IMPORTED_MODULE_0__["default"])('.modal').fadeOut(500);
+      document.body.style.overflow = "";
+    });
+  });
+  Object(_core__WEBPACK_IMPORTED_MODULE_0__["default"])('.modal').listenerAdd('click', e => {
+    if (e.target.classList.contains('modal')) {
+      Object(_core__WEBPACK_IMPORTED_MODULE_0__["default"])('.modal').fadeOut(500);
+      document.body.style.overflow = "";
+    }
+  });
+};
+
+Object(_core__WEBPACK_IMPORTED_MODULE_0__["default"])('[data-toggle="modal"]').modal();
+const dropdown = `
+<div class="dropdown mt-20">
+    <button class="dropdown-btn btn btn-primary" id="dropdownMenuButton">
+        dropdown btn
+    </button>
+    <div class="dropdown-menu" data-btn-id="dropdownMenuButton">
+        <a href="#" class="dropdown-item">item 1</a>
+        <a href="#" class="dropdown-item">item 2</a>
+        <a href="#" class="dropdown-item">item 3</a>
+    </div>
+</div>
+`;
+const card = `
+<div class="card">
+    <img src="https://blog.logrocket.com/wp-content/uploads/2020/10/deep-cloning-objects-javascript.png" alt="promo"
+        class="card-img">
+    <div class="card-body">
+        <div class="card-tittle">Tittle 3</div>
+        <p class="card-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquid, ipsam?</p>
+        <a href="" class="btn btn-dark">Link to</a>
+    </div>
+</div>
+`;
+const modalWindow = `
+<div class="modal" id="exampleModal">
+    <div class="modal-dialog">
+    <div class="modal-content">
+        <button class="close" data-close>
+        <span>&times;</span>
+        </button>
+        <div class="modal-header">
+        <div class="modal-tittle">
+            Modal tittle
+        </div>
+        </div>
+        <div class="modal-body">
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quas dignissimos aliquid laborum rem temporibus
+        dolorum aspernatur tempore deserunt eligendi voluptatum.
+        </div>
+        <div class="modal-footer">
+        <button class="btn btn-danger" data-close>Close</button>
+        <button class="btn btn-success">
+            Save changes
+        </button>
+        </div>
+    </div>
+    </div>
+</div>
+`;
+
+/***/ }),
+
 /***/ "./src/js/lib/modules/core.js":
 /*!************************************!*\
   !*** ./src/js/lib/modules/core.js ***!
@@ -423,6 +519,31 @@ _core__WEBPACK_IMPORTED_MODULE_0__["default"].prototype.toggle = function () {
 
 /***/ }),
 
+/***/ "./src/js/lib/modules/dropdown.js":
+/*!****************************************!*\
+  !*** ./src/js/lib/modules/dropdown.js ***!
+  \****************************************/
+/*! no exports provided */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./core */ "./src/js/lib/modules/core.js");
+
+
+_core__WEBPACK_IMPORTED_MODULE_0__["default"].prototype.dropdown = function () {
+  for (let i = 0; i < this.length; i++) {
+    const id = this[i].getAttribute('id');
+    Object(_core__WEBPACK_IMPORTED_MODULE_0__["default"])(this[i]).listenerAdd('click', e => {
+      Object(_core__WEBPACK_IMPORTED_MODULE_0__["default"])(`[data-btn-id="${id}"]`).fadeToggle(300);
+    });
+  }
+};
+
+Object(_core__WEBPACK_IMPORTED_MODULE_0__["default"])(".dropdown-btn").dropdown();
+
+/***/ }),
+
 /***/ "./src/js/lib/modules/effects.js":
 /*!***************************************!*\
   !*** ./src/js/lib/modules/effects.js ***!
@@ -434,6 +555,90 @@ _core__WEBPACK_IMPORTED_MODULE_0__["default"].prototype.toggle = function () {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./core */ "./src/js/lib/modules/core.js");
 
+
+_core__WEBPACK_IMPORTED_MODULE_0__["default"].prototype.animateOverTime = function (dur, cb, fin) {
+  let timeStart;
+
+  function _animateOverTime(time) {
+    if (!timeStart) {
+      timeStart = time;
+    }
+
+    let timeElapsed = time - timeStart;
+    let complection = Math.min(timeElapsed / dur, 1);
+    cb(complection);
+
+    if (timeElapsed < dur) {
+      requestAnimationFrame(_animateOverTime);
+    } else {
+      if (typeof fin === 'function') {
+        fin();
+      }
+    }
+  }
+
+  return _animateOverTime;
+};
+
+_core__WEBPACK_IMPORTED_MODULE_0__["default"].prototype.fadeIn = function (dur, display, fin) {
+  for (let i = 0; i < this.length; i++) {
+    this[i].style.display = display || 'block';
+
+    const _fadeIn = complection => {
+      this[i].style.opacity = complection;
+    };
+
+    const ani = this.animateOverTime(dur, _fadeIn, fin);
+    requestAnimationFrame(ani);
+  }
+
+  return this;
+};
+
+_core__WEBPACK_IMPORTED_MODULE_0__["default"].prototype.fadeOut = function (dur, fin) {
+  for (let i = 0; i < this.length; i++) {
+    const _fadeOut = complection => {
+      this[i].style.opacity = 1 - complection;
+
+      if (complection === 1) {
+        this[i].style.display = 'none';
+      }
+    };
+
+    const ani = this.animateOverTime(dur, _fadeOut, fin);
+    requestAnimationFrame(ani);
+  }
+
+  return this;
+};
+
+_core__WEBPACK_IMPORTED_MODULE_0__["default"].prototype.fadeToggle = function (dur, display, fin) {
+  for (let i = 0; i < this.length; i++) {
+    if (window.getComputedStyle(this[i]).display === 'none') {
+      this[i].style.display = display || 'block';
+
+      const _fadeIn = complection => {
+        this[i].style.opacity = complection;
+      };
+
+      const ani = this.animateOverTime(dur, _fadeIn, fin);
+      requestAnimationFrame(ani);
+    } else {
+      const _fadeOut = complection => {
+        this[i].style.opacity = 1 - complection;
+
+        if (complection === 1) {
+          this[i].style.display = 'none';
+        }
+      };
+
+      const ani = this.animateOverTime(dur, _fadeOut, fin);
+      requestAnimationFrame(ani);
+    }
+  }
+
+  return this;
+};
 
 /***/ }),
 

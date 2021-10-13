@@ -2,25 +2,93 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Library</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Library</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
-    <div class="wrapper">
-        <div class="somes">
-            <div class="tester">1</div>
-            <div class="more">2</div>
-            <div class="tester">3</div>
-            <div class="no">4</div>
-            <div class="mo">5</div>
+  <header>
+    <div class="menu-bar d-flex f-space-between p10 mb20 fz-16">
+      <div class="dropdown">
+        <button class="dropdown-btn btn btn-dark-outline" id="dropdownMenuButton">
+          dropdown
+        </button>
+        <div class="dropdown-menu" data-btn-id="dropdownMenuButton">
+          <a href="#" class="dropdown-item">item 1</a>
+          <a href="#" class="dropdown-item">item 2</a>
+          <a href="#" class="dropdown-item">item 3</a>
         </div>
-        <button>click</button>
+      </div>
+      <div class="links d-flex f-space-between mr-10 fz-14">
+        <a href="#">first</a>
+        <a href="#">second</a>
+        <a href="#">third</a>
+        <a href="#">fourth</a>
+      </div>
     </div>
-    <script src='script.js'></script>
+  </header>
+  <div class="container">
+    <!-- Cards -->
+    <div class="goods d-flex f-space-around">
+      <div class="card">
+        <img src="https://blog.logrocket.com/wp-content/uploads/2020/10/deep-cloning-objects-javascript.png" alt="promo"
+          class="card-img">
+        <div class="card-body">
+          <div class="card-tittle">Tittle</div>
+          <p class="card-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquid, ipsam?</p>
+          <a href="" class="btn btn-dark" data-toggle="modal" data-target-id="exampleModal">Link to</a>
+        </div>
+      </div>
+      <div class="card">
+        <img src="https://blog.logrocket.com/wp-content/uploads/2020/10/deep-cloning-objects-javascript.png" alt="promo"
+          class="card-img">
+        <div class="card-body">
+          <div class="card-tittle">Tittle 2</div>
+          <p class="card-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquid, ipsam?</p>
+          <a href="" class="btn btn-dark" data-toggle="modal" data-target-id="exampleModal">Link to</a>
+        </div>
+      </div>
+      <div class="card">
+        <img src="https://blog.logrocket.com/wp-content/uploads/2020/10/deep-cloning-objects-javascript.png" alt="promo"
+          class="card-img">
+        <div class="card-body">
+          <div class="card-tittle">Tittle 3</div>
+          <p class="card-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquid, ipsam?</p>
+          <a href="" class="btn btn-dark" data-toggle="modal" data-target-id="exampleModal">Link to</a>
+        </div>
+      </div>
+    </div>
+    <!-- Modal -->
+    <div class="modal" id="exampleModal">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <button class="close" data-close>
+            <span>&times;</span>
+          </button>
+          <div class="modal-header">
+            <div class="modal-tittle">
+              Modal tittle
+            </div>
+          </div>
+          <div class="modal-body">
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quas dignissimos aliquid laborum rem temporibus
+            dolorum aspernatur tempore deserunt eligendi voluptatum.
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-danger" data-close>Close</button>
+            <button class="btn btn-success">
+              Save changes
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- container end -->
+  </div>
+  <script src='script.js'></script>
 </body>
 
 </html>
