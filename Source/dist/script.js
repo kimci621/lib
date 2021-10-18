@@ -106,6 +106,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _modules_modal__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./modules/modal */ "./src/js/lib/modules/modal.js");
 /* harmony import */ var _modules_tabs__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./modules/tabs */ "./src/js/lib/modules/tabs.js");
 /* harmony import */ var _modules_accordion__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./modules/accordion */ "./src/js/lib/modules/accordion.js");
+/* harmony import */ var _modules_carousel__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./modules/carousel */ "./src/js/lib/modules/carousel.js");
+/* harmony import */ var _services_requests__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./services/requests */ "./src/js/lib/services/requests.js");
+
+
 
 
 
@@ -328,6 +332,93 @@ _core__WEBPACK_IMPORTED_MODULE_0__["default"].prototype.siblings = function () {
 
   return this;
 };
+
+/***/ }),
+
+/***/ "./src/js/lib/modules/carousel.js":
+/*!****************************************!*\
+  !*** ./src/js/lib/modules/carousel.js ***!
+  \****************************************/
+/*! no exports provided */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./core */ "./src/js/lib/modules/core.js");
+
+
+_core__WEBPACK_IMPORTED_MODULE_0__["default"].prototype.carousel = function () {
+  // this[i] = parent node of slides (main)
+  for (let i = 0; i < this.length; i++) {
+    const width = window.getComputedStyle(this[i].querySelector('.carousel-inner')).width;
+    const slides = this[i].querySelectorAll('.carousel-item');
+    const slidesAll = this[i].querySelector('.carousel-slides');
+    let offset = 0;
+    let slideIndex = 0;
+    const dots = this[i].querySelectorAll('.carousel-indicators li');
+    slidesAll.style.width = 100 * slides.length + "%";
+    slides.forEach(slide => {
+      slide.style.width = width;
+    });
+    Object(_core__WEBPACK_IMPORTED_MODULE_0__["default"])(this[i].querySelector('.carousel-next')).listenerAdd('click', e => {
+      e.preventDefault();
+
+      if (offset === +width.replace(/\D/g, '') * (slides.length - 1)) {
+        offset = 0;
+      } else {
+        offset += +width.replace(/\D/g, '');
+      }
+
+      slidesAll.style.transform = `translateX(-${offset}px)`;
+
+      if (slideIndex == slides.length - 1) {
+        slideIndex = 0;
+      } else {
+        slideIndex++;
+      }
+
+      dots.forEach(dot => {
+        dot.classList.remove("active");
+      });
+      dots[slideIndex].classList.add("active");
+    });
+    Object(_core__WEBPACK_IMPORTED_MODULE_0__["default"])(this[i].querySelector('.carousel-prev')).listenerAdd('click', e => {
+      e.preventDefault();
+
+      if (offset === 0) {
+        offset = +width.replace(/\D/g, '') * (slides.length - 1);
+      } else {
+        offset -= +width.replace(/\D/g, '');
+      }
+
+      slidesAll.style.transform = `translateX(-${offset}px)`;
+
+      if (slideIndex == 0) {
+        slideIndex = slides.length - 1;
+      } else {
+        slideIndex--;
+      }
+
+      dots.forEach(dot => {
+        dot.classList.remove("active");
+      });
+      dots[slideIndex].classList.add("active");
+    });
+    const sliderId = this[i].getAttribute('id');
+    Object(_core__WEBPACK_IMPORTED_MODULE_0__["default"])(`#${sliderId} .carousel-indicators li`).listenerAdd('click', e => {
+      const slideTo = e.target.getAttribute('data-slide-to');
+      slideIndex = slideTo;
+      offset = +width.replace(/\D/g, '') * slideTo;
+      slidesAll.style.transform = `translateX(-${offset}px)`;
+      dots.forEach(dot => {
+        dot.classList.remove("active");
+      });
+      dots[slideIndex].classList.add("active");
+    });
+  }
+};
+
+Object(_core__WEBPACK_IMPORTED_MODULE_0__["default"])(".carousel").carousel();
 
 /***/ }),
 
@@ -820,6 +911,64 @@ Object(_core__WEBPACK_IMPORTED_MODULE_0__["default"])("[data-tab-panel] .tab-ite
 
 /***/ }),
 
+/***/ "./src/js/lib/services/requests.js":
+/*!*****************************************!*\
+  !*** ./src/js/lib/services/requests.js ***!
+  \*****************************************/
+/*! no exports provided */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _modules_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../modules/core */ "./src/js/lib/modules/core.js");
+
+
+_modules_core__WEBPACK_IMPORTED_MODULE_0__["default"].prototype.get = async function (url, dataTypeAnswer = 'json') {
+  let res = await fetch(url);
+
+  if (!res.ok) {
+    throw new Error(`Could not fetch: ${url}, status: ${res.status}`);
+  }
+
+  switch (dataTypeAnswer) {
+    case 'json':
+      return await res.json();
+
+    case 'text':
+      return await res.text();
+
+    case 'blob':
+      return await res.blob();
+  }
+};
+
+_modules_core__WEBPACK_IMPORTED_MODULE_0__["default"].prototype.post = async function (url, data, contentType = 'text') {
+  let res = await fetch(url, {
+    method: 'POST',
+    headers: {
+      'Content-type': contentType
+    },
+    body: data
+  });
+
+  if (!res.ok) {
+    throw new Error(`Could not fetch: ${url}, status: ${res.status}`);
+  }
+
+  switch (contentType) {
+    case 'json':
+      return await res.json();
+
+    case 'text':
+      return await res.text();
+
+    case 'blob':
+      return await res.blob();
+  }
+};
+
+/***/ }),
+
 /***/ "./src/js/main.js":
 /*!************************!*\
   !*** ./src/js/main.js ***!
@@ -831,6 +980,7 @@ Object(_core__WEBPACK_IMPORTED_MODULE_0__["default"])("[data-tab-panel] .tab-ite
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _lib_lib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./lib/lib */ "./src/js/lib/lib.js");
 
+$().post(url, data);
 
 /***/ })
 

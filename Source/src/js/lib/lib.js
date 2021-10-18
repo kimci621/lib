@@ -9,6 +9,8 @@ import "./modules/components";
 import "./modules/modal";
 import "./modules/tabs";
 import "./modules/accordion";
+import "./modules/carousel";
+import "./services/requests";
 /*
 MyLib v. 1.0
 
