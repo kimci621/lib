@@ -12,14 +12,17 @@
 <body>
   <header>
     <div class="menu-bar d-flex f-space-between p10 mb20 fz-16">
-      <div class="dropdown">
-        <button class="dropdown-btn btn btn-dark-outline" id="dropdownMenuButton">
-          dropdown
-        </button>
-        <div class="dropdown-menu" data-btn-id="dropdownMenuButton">
-          <a href="#" class="dropdown-item">item 1</a>
-          <a href="#" class="dropdown-item">item 2</a>
-          <a href="#" class="dropdown-item">item 3</a>
+      <div class="wrapper d-flex f-centered p10 mb20 fz-16">
+        <a href="#" class="logo">Logo</a>
+        <div class="dropdown">
+          <button class="dropdown-btn btn btn-dark-outline" id="dropdownMenuButton">
+            dropdown
+          </button>
+          <div class="dropdown-menu" data-btn-id="dropdownMenuButton">
+            <a href="#" class="dropdown-item">item 1</a>
+            <a href="#" class="dropdown-item">item 2</a>
+            <a href="#" class="dropdown-item">item 3</a>
+          </div>
         </div>
       </div>
       <div class="links d-flex f-space-between mr-10 fz-14">
@@ -57,7 +60,7 @@
         <div class="card-body">
           <div class="card-tittle">Tittle 3</div>
           <p class="card-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquid, ipsam?</p>
-          <a href="" class="btn btn-dark" data-toggle="modal" data-target-id="exampleModal">Link to</a>
+          <a href="" id="trig" class="btn btn-dark" data-toggle="modal" data-target-id="exampleModal">Link to</a>
         </div>
       </div>
     </div>
@@ -86,7 +89,38 @@
         </div>
       </div>
     </div>
+    <!-- Tabs  -->
+    <div class="tab mt-20 block-center">
+      <div class="tab-panel" data-tab-panel>
+        <div class="tab-item tab-active">Tab 1</div>
+        <div class="tab-item">Tab 2</div>
+        <div class="tab-item">Tab 3</div>
+        <div class="tab-item">Tab 4</div>
+      </div>
+      <div class="tab-content tab-content-active">
+        Some content first
+        <br><br>
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Perspiciatis, asperiores.</p>
+      </div>
+      <div class="tab-content">
+        Some content second
+        <br><br>
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Perspiciatis, asperiores.</p>
+      </div>
+      <div class="tab-content">
+        Some content third
+        <br><br>
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Perspiciatis, asperiores.</p>
+      </div>
+      <div class="tab-content">
+        Some content fourth
+        <br><br>
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Perspiciatis, asperiores.</p>
+      </div>
+
+    </div>
     <!-- container end -->
+    <footer mb-40>Footer</footer>
   </div>
   <script src='script.js'></script>
 </body>

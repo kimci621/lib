@@ -6,6 +6,8 @@ import "./modules/actions";
 import "./modules/effects";
 import "./modules/dropdown";
 import "./modules/components";
+import "./modules/modal";
+import "./modules/tabs";
 /*
 MyLib v. 1.0
 
@@ -30,8 +32,8 @@ $("elem"). - Выбрать элемент по селектору или тэг
 .eq(selector) - первый элемент по порядку у всех подобных 
 .index() - номер элемента  по порядку у всех подобных 
 .find(selector) - все подобные по порядку у одного общего родителя
-.closestElem(selector) - ближайший выше по иерархии элемент у всех в селекторе, если его нет, то он сам
-.siblings() - все соседи элемента
+.closest(selector) - ближайший выше по иерархии элемент у всех в селекторе, если его нет, то он сам
+.siblings() - все соседи элемента, кроме самого элемента
 .fadeIn(duration=int, display, callback) - анимиция появления с requestAnimationFrame  через opacity
 .fadeOut(duration=int, display, callback) - анимиция изчезания с requestAnimationFrame через opacity
 */

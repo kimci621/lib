@@ -1,35 +1,5 @@
 import $ from "./core";
 
-$.prototype.modal = function () {
-    for (let i = 0; i < this.length; i++) {
-        const target = this[i].getAttribute("data-target-id");
-        $(this[i]).listenerAdd('click', (e) => {
-            e.preventDefault();
-            $(`#${target}`).fadeIn(500);
-            document.body.style.overflow = "hidden";
-        });
-    }
-
-    const closeTriggers = document.querySelectorAll('[data-close]');
-
-    closeTriggers.forEach(elem => {
-        elem.addEventListener('click', () => {
-            $('.modal').fadeOut(500);
-            document.body.style.overflow = "";
-        });
-    });
-
-    $('.modal').listenerAdd('click', (e) => {
-        if (e.target.classList.contains('modal')) {
-            $('.modal').fadeOut(500);
-            document.body.style.overflow = "";
-        }
-    });
-};
-
-$('[data-toggle="modal"]').modal();
-
-
 const dropdown = `
 <div class="dropdown mt-20">
     <button class="dropdown-btn btn btn-primary" id="dropdownMenuButton">

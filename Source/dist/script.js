@@ -103,6 +103,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _modules_effects__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./modules/effects */ "./src/js/lib/modules/effects.js");
 /* harmony import */ var _modules_dropdown__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./modules/dropdown */ "./src/js/lib/modules/dropdown.js");
 /* harmony import */ var _modules_components__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./modules/components */ "./src/js/lib/modules/components.js");
+/* harmony import */ var _modules_modal__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./modules/modal */ "./src/js/lib/modules/modal.js");
+/* harmony import */ var _modules_tabs__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./modules/tabs */ "./src/js/lib/modules/tabs.js");
+
+
 
 
 
@@ -135,8 +139,8 @@ $("elem"). - Выбрать элемент по селектору или тэг
 .eq(selector) - первый элемент по порядку у всех подобных 
 .index() - номер элемента  по порядку у всех подобных 
 .find(selector) - все подобные по порядку у одного общего родителя
-.closestElem(selector) - ближайший выше по иерархии элемент у всех в селекторе, если его нет, то он сам
-.siblings() - все соседи элемента
+.closest(selector) - ближайший выше по иерархии элемент у всех в селекторе, если его нет, то он сам
+.siblings() - все соседи элемента, кроме самого элемента
 .fadeIn(duration=int, display, callback) - анимиция появления с requestAnimationFrame  через opacity
 .fadeOut(duration=int, display, callback) - анимиция изчезания с requestAnimationFrame через opacity
 */
@@ -351,33 +355,6 @@ _core__WEBPACK_IMPORTED_MODULE_0__["default"].prototype.toggleClass = function (
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./core */ "./src/js/lib/modules/core.js");
 
-
-_core__WEBPACK_IMPORTED_MODULE_0__["default"].prototype.modal = function () {
-  for (let i = 0; i < this.length; i++) {
-    const target = this[i].getAttribute("data-target-id");
-    Object(_core__WEBPACK_IMPORTED_MODULE_0__["default"])(this[i]).listenerAdd('click', e => {
-      e.preventDefault();
-      Object(_core__WEBPACK_IMPORTED_MODULE_0__["default"])(`#${target}`).fadeIn(500);
-      document.body.style.overflow = "hidden";
-    });
-  }
-
-  const closeTriggers = document.querySelectorAll('[data-close]');
-  closeTriggers.forEach(elem => {
-    elem.addEventListener('click', () => {
-      Object(_core__WEBPACK_IMPORTED_MODULE_0__["default"])('.modal').fadeOut(500);
-      document.body.style.overflow = "";
-    });
-  });
-  Object(_core__WEBPACK_IMPORTED_MODULE_0__["default"])('.modal').listenerAdd('click', e => {
-    if (e.target.classList.contains('modal')) {
-      Object(_core__WEBPACK_IMPORTED_MODULE_0__["default"])('.modal').fadeOut(500);
-      document.body.style.overflow = "";
-    }
-  });
-};
-
-Object(_core__WEBPACK_IMPORTED_MODULE_0__["default"])('[data-toggle="modal"]').modal();
 const dropdown = `
 <div class="dropdown mt-20">
     <button class="dropdown-btn btn btn-primary" id="dropdownMenuButton">
@@ -677,6 +654,133 @@ _core__WEBPACK_IMPORTED_MODULE_0__["default"].prototype.listenerRemove = functio
 
   return this;
 };
+
+/***/ }),
+
+/***/ "./src/js/lib/modules/modal.js":
+/*!*************************************!*\
+  !*** ./src/js/lib/modules/modal.js ***!
+  \*************************************/
+/*! no exports provided */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./core */ "./src/js/lib/modules/core.js");
+
+
+_core__WEBPACK_IMPORTED_MODULE_0__["default"].prototype.modal = function () {
+  for (let i = 0; i < this.length; i++) {
+    const target = this[i].getAttribute("data-target-id");
+    Object(_core__WEBPACK_IMPORTED_MODULE_0__["default"])(this[i]).listenerAdd('click', e => {
+      e.preventDefault();
+      Object(_core__WEBPACK_IMPORTED_MODULE_0__["default"])(`#${target}`).fadeIn(500);
+      document.body.style.overflow = "hidden";
+    });
+  }
+
+  const closeTriggers = document.querySelectorAll('[data-close]');
+  closeTriggers.forEach(elem => {
+    elem.addEventListener('click', () => {
+      Object(_core__WEBPACK_IMPORTED_MODULE_0__["default"])('.modal').fadeOut(500);
+      document.body.style.overflow = "";
+    });
+  });
+  Object(_core__WEBPACK_IMPORTED_MODULE_0__["default"])('.modal').listenerAdd('click', e => {
+    if (e.target.classList.contains("btn-success")) {
+      alert('Data send success!');
+    }
+
+    if (e.target.classList.contains('modal')) {
+      Object(_core__WEBPACK_IMPORTED_MODULE_0__["default"])('.modal').fadeOut(500);
+      document.body.style.overflow = "";
+    }
+  });
+};
+
+Object(_core__WEBPACK_IMPORTED_MODULE_0__["default"])('[data-toggle="modal"]').modal(); //create modal window on trigger click 
+
+_core__WEBPACK_IMPORTED_MODULE_0__["default"].prototype.createModal = function ({
+  text,
+  // text = {text: tittle, text}
+  btns // btns = {count: num, settings: [text, [classes], isClose, callback]}
+
+} = {}) {
+  for (let i = 0; i < this.length; i++) {
+    let modal = document.createElement('div');
+    modal.classList.add('modal');
+    modal.setAttribute('id', this[i].getAttribute('data-target-id').slice(1));
+    const buttons = [];
+
+    for (let j = 0; j < btns.count; j++) {
+      let btn = document.createElement('button');
+      btn.classList.add('btn', ...btns.settings[j][1]);
+      btn.textContent = btns.settings[j][0];
+
+      if (btns.settings[j][2]) {
+        btn.setAttribute('data-close', 'true');
+      }
+
+      if (btns.settings[j][3] && typeof btns.settings[j][3] === 'function') {
+        btn.addEventListener('click', btns.settings[j][3]);
+      }
+
+      buttons.push(btn);
+    }
+
+    modal.innerHTML = `
+      <div class="modal-dialog">
+          <div class="modal-content">
+              <button class="close" data-close>
+                  <span>&times;</span>
+              </button>
+              <div class="modal-header">
+                  <div class="modal-title">
+                      ${text.title}
+                  </div>
+              </div>
+              <div class="modal-body">
+                  ${text.body}
+              </div>
+              <div class="modal-footer">
+                  
+              </div>
+          </div>
+      </div>
+      `;
+    modal.querySelector(".modal-footer").append(...buttons);
+    document.body.appendChild(modal);
+    Object(_core__WEBPACK_IMPORTED_MODULE_0__["default"])(this[i]).modal(true);
+    Object(_core__WEBPACK_IMPORTED_MODULE_0__["default"])(this[i].getAttribute('data-target-id')).fadeIn(500);
+  }
+};
+
+/***/ }),
+
+/***/ "./src/js/lib/modules/tabs.js":
+/*!************************************!*\
+  !*** ./src/js/lib/modules/tabs.js ***!
+  \************************************/
+/*! no exports provided */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./core */ "./src/js/lib/modules/core.js");
+
+
+_core__WEBPACK_IMPORTED_MODULE_0__["default"].prototype.tab = function () {
+  for (let i = 0; i < this.length; i++) {
+    Object(_core__WEBPACK_IMPORTED_MODULE_0__["default"])(this[i]).listenerAdd("click", () => {
+      Object(_core__WEBPACK_IMPORTED_MODULE_0__["default"])(this[i]).siblings().removeClass("tab-active");
+      Object(_core__WEBPACK_IMPORTED_MODULE_0__["default"])(this[i]).addClass("tab-active");
+      Object(_core__WEBPACK_IMPORTED_MODULE_0__["default"])(this[i].closest(".tab")).find(".tab-content").removeClass("tab-content-active") // .addClass('')
+      .eq(Object(_core__WEBPACK_IMPORTED_MODULE_0__["default"])(this[i]).index()).addClass("tab-content-active");
+    });
+  }
+};
+
+Object(_core__WEBPACK_IMPORTED_MODULE_0__["default"])("[data-tab-panel] .tab-item").tab();
 
 /***/ }),
 
