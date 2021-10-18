@@ -8,6 +8,7 @@ import "./modules/dropdown";
 import "./modules/components";
 import "./modules/modal";
 import "./modules/tabs";
+import "./modules/accordion";
 /*
 MyLib v. 1.0
 
@@ -30,7 +31,7 @@ $("elem"). - Выбрать элемент по селектору или тэг
 .listenerAdd("event", callback) - добавить слушатель
 .listenerRemove("event", callback) - убрать слушатель
 .eq(selector) - первый элемент по порядку у всех подобных 
-.index() - номер элемента  по порядку у всех подобных 
+.index() - номер элемента 
 .find(selector) - все подобные по порядку у одного общего родителя
 .closest(selector) - ближайший выше по иерархии элемент у всех в селекторе, если его нет, то он сам
 .siblings() - все соседи элемента, кроме самого элемента

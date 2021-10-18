@@ -105,6 +105,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _modules_components__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./modules/components */ "./src/js/lib/modules/components.js");
 /* harmony import */ var _modules_modal__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./modules/modal */ "./src/js/lib/modules/modal.js");
 /* harmony import */ var _modules_tabs__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./modules/tabs */ "./src/js/lib/modules/tabs.js");
+/* harmony import */ var _modules_accordion__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./modules/accordion */ "./src/js/lib/modules/accordion.js");
+
 
 
 
@@ -137,7 +139,7 @@ $("elem"). - Выбрать элемент по селектору или тэг
 .listenerAdd("event", callback) - добавить слушатель
 .listenerRemove("event", callback) - убрать слушатель
 .eq(selector) - первый элемент по порядку у всех подобных 
-.index() - номер элемента  по порядку у всех подобных 
+.index() - номер элемента 
 .find(selector) - все подобные по порядку у одного общего родителя
 .closest(selector) - ближайший выше по иерархии элемент у всех в селекторе, если его нет, то он сам
 .siblings() - все соседи элемента, кроме самого элемента
@@ -146,6 +148,41 @@ $("elem"). - Выбрать элемент по селектору или тэг
 */
 
 /* harmony default export */ __webpack_exports__["default"] = (_modules_core__WEBPACK_IMPORTED_MODULE_0__["default"]);
+
+/***/ }),
+
+/***/ "./src/js/lib/modules/accordion.js":
+/*!*****************************************!*\
+  !*** ./src/js/lib/modules/accordion.js ***!
+  \*****************************************/
+/*! no exports provided */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./core */ "./src/js/lib/modules/core.js");
+
+
+_core__WEBPACK_IMPORTED_MODULE_0__["default"].prototype.accordion = function () {
+  for (let i = 0; i < this.length; i++) {
+    Object(_core__WEBPACK_IMPORTED_MODULE_0__["default"])(this[i]).listenerAdd('click', () => {
+      Object(_core__WEBPACK_IMPORTED_MODULE_0__["default"])(this[i]).toggleClass("active");
+      Object(_core__WEBPACK_IMPORTED_MODULE_0__["default"])(this[i].nextElementSibling).toggleClass("active");
+    });
+  }
+};
+
+_core__WEBPACK_IMPORTED_MODULE_0__["default"].prototype.accordionWithOne = function () {
+  for (let i = 0; i < this.length; i++) {
+    Object(_core__WEBPACK_IMPORTED_MODULE_0__["default"])(this[i]).listenerAdd('click', () => {
+      Object(_core__WEBPACK_IMPORTED_MODULE_0__["default"])(this[i]).closest('.accordion-triggers').find(".accordion-content").removeClass("active").eq(i).addClass("active");
+      Object(_core__WEBPACK_IMPORTED_MODULE_0__["default"])(this[i]).closest('.accordion-triggers').find(".accordion-trigger").removeClass("active").eq(i).addClass("active");
+    });
+  }
+}; // $(".accordion-trigger").accordion();
+
+
+Object(_core__WEBPACK_IMPORTED_MODULE_0__["default"])(".accordion-trigger").accordionWithOne();
 
 /***/ }),
 
@@ -774,8 +811,7 @@ _core__WEBPACK_IMPORTED_MODULE_0__["default"].prototype.tab = function () {
     Object(_core__WEBPACK_IMPORTED_MODULE_0__["default"])(this[i]).listenerAdd("click", () => {
       Object(_core__WEBPACK_IMPORTED_MODULE_0__["default"])(this[i]).siblings().removeClass("tab-active");
       Object(_core__WEBPACK_IMPORTED_MODULE_0__["default"])(this[i]).addClass("tab-active");
-      Object(_core__WEBPACK_IMPORTED_MODULE_0__["default"])(this[i].closest(".tab")).find(".tab-content").removeClass("tab-content-active") // .addClass('')
-      .eq(Object(_core__WEBPACK_IMPORTED_MODULE_0__["default"])(this[i]).index()).addClass("tab-content-active");
+      Object(_core__WEBPACK_IMPORTED_MODULE_0__["default"])(this[i].closest(".tab")).find(".tab-content").removeClass("tab-content-active").eq(Object(_core__WEBPACK_IMPORTED_MODULE_0__["default"])(this[i]).index()).addClass("tab-content-active");
     });
   }
 };
